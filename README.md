@@ -77,7 +77,7 @@ If everything went good, you should see some output messages on your terminal in
 In order to use the application from your browser, start Django's own development
 server with your virtual environment activated:
 ``` bash
-$ cd fullstack-developer-test/app
+$ cd app
 $ python manage.py runserver
 ```
 
