@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" type="text/css" href="{% static "/css/main.css" %}"/>        
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet"/>
+        <title>Metamatcher</title>
+    </head>
+    <body>
+        <div class="page-container">
+            <!-- Page header -->
+            <div class="page-header">
+                <div class="app-logo">MetaMatcher</div>
+            </div>
+            <!-- /Page header -->
+
+            <!-- Content -->
+            <main class="page-content" id="app">
+                <div id="input-report">
+                    <ul>
+                        <input-recording
+                        v-for="input in input_recordings"
+                        :metadata="input"
+                        @get-element-info="getElementInfo">
+                        </input-recording>
+                    </ul>
+                </div>
+                <div id="candidates">
+                    <div v-if="!loaded_candidates" class="initial-info">
+                        <h1 v-if="removed != input_recordings.length">Select a recording from the list.</h1>
+                        <h1 v-else>No recordings left in your list!</h1>
+                    </div>
+                    <div v-else class="candidates-list">
+                        <h3 v-if="candidates.length != 1">
+                            [[ candidates.length ]] candidates were found.
+                        </h3>
+                        <h3 v-else>
+                            [[ candidates.length ]] candidate was found.
+                        </h3>
+                        <ul v-if="candidates.length > 0">
+                            <candidate-recording
+                            v-for="candidate in candidates"
+                            @select-candidate="selectCandidate"
+                            :metadata="candidate">
+                            </candidate-recording>
+                        </ul>
+                        <button type="button"
+                        :class="{active: can_submit}"
+                        @click="submitCandidate">
+                            Choose
+                        </button>
+                    </div>
+                </div>
+            </main>
+            <!-- /Content -->
+        
+        </div>
+        {% csrf_token %}
+    </body>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-resource@1.3.5"></script>
+    <script type="text/javascript" src="{% static "/js/main.js" %}"></script>
+</html>
